@@ -6,10 +6,15 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "go build src/*.go",
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "windows": {
+                "command": "go build -o main.exe src/*.go",
+            },
+            "linux": {
+                "command": "go build -o main.out src/*.go"
             }
         }
     ]
