@@ -15,7 +15,15 @@
             },
             "linux": {
                 "command": "go build -o main.out src/*.go"
-            }
+            },
+            "problemMatcher":"$go"
+        },
+        {
+            "label": "build test",
+            "type": "shell",
+            "group": "test",
+            "command":["go build -o test"],
+            "args": ["tests/*.go"]
         }
     ]
 }

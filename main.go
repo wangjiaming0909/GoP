@@ -2,13 +2,29 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"net/url"
 )
+
+func HttpHandler(w http.ResponseWriter, r *http.Request) {
+	for headerName, headerValue := range r.Header {
+		fmt.Println(headerName)
+		fmt.Println(headerValue)
+	}
+
+	w.Write([]byte("Hello World!"))
+}
 
 func main() {
 	fmt.Println(123)
 	s := add(1, 2)
 	fmt.Println(s)
+
+	var dispather HttpRequestDispatcher
+	err := dispather.RegisterHandler("/", HttpHandler, false)
+	if err != nil {
+		fmt.Println("error: ", err.Error())
+	}
 
 	// resp, err := http.Get("https://www.baidu.com")
 
@@ -39,4 +55,7 @@ func main() {
 	uri.Scheme = "http"
 	uri.Host = "www.baidu.com"
 	fmt.Println(uri.String())
+	http.HandleFunc("/", HttpHandler)
+	http.ListenAndServe(":9090", nil)
+
 }
