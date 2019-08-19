@@ -1,4 +1,4 @@
-package main
+package server
 
 import (
 	"container/list"
@@ -14,7 +14,10 @@ type HttpRequestDispatcher struct {
 }
 
 func (dispatcher *HttpRequestDispatcher) RegisterHandler(path string, handler Handler_t, replace bool) error {
-	if dispatcher.dispathcTable_[path] != nil {
+	if dispatcher.dispathcTable_ == nil {
+		return errors.New("null reference")
+	}
+	if dispatcher.dispathcTable_[path] == nil {
 		dispatcher.dispathcTable_[path] = handler
 		return nil
 	}
@@ -23,6 +26,16 @@ func (dispatcher *HttpRequestDispatcher) RegisterHandler(path string, handler Ha
 		return nil
 	}
 	return errors.New("already existed")
+}
+
+func NewDispatcher() *HttpRequestDispatcher {
+	ret := new(HttpRequestDispatcher)
+	ret.dispathcTable_ = map[string]Handler_t{}
+	return ret
+}
+
+func (dispatcher *HttpRequestDispatcher) Len() int {
+	return len(dispatcher.dispathcTable_)
 }
 
 func a(l *list.List) {

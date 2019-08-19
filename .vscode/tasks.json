@@ -11,10 +11,10 @@
                 "isDefault": true
             },
             "windows": {
-                "command": "go build -o main.exe src/*.go",
+                "command": "go build -o main.exe *.go",
             },
             "linux": {
-                "command": "go build -o main.out src/*.go"
+                "command": "go build -o main.out *.go"
             },
             "problemMatcher":"$go"
         },
@@ -23,7 +23,7 @@
             "type": "shell",
             "group": "test",
             "command":["go build -o test"],
-            "args": ["tests/*.go"]
+            "args": ["*.go"]
         }
     ]
 }

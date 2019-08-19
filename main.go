@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+
+	"github.com/wangjiaming0909/GoP/server"
 )
 
 func HttpHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,11 +18,7 @@ func HttpHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println(123)
-	s := add(1, 2)
-	fmt.Println(s)
-
-	var dispather HttpRequestDispatcher
+	dispather := server.NewDispatcher()
 	err := dispather.RegisterHandler("/", HttpHandler, false)
 	if err != nil {
 		fmt.Println("error: ", err.Error())
