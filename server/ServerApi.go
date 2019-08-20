@@ -1,46 +1,47 @@
 package server
 
 import (
-	"container/list"
 	"errors"
-	"fmt"
 	"net/http"
 )
 
-type Handler_t func(w http.ResponseWriter, r *http.Request)
+//HandlerT dispatch callback
+type HandlerT func(w http.ResponseWriter, r *http.Request)
 
-type HttpRequestDispatcher struct {
-	dispathcTable_ map[string]Handler_t
+//HTTPRequestDispatcher dispatcher
+type HTTPRequestDispatcher struct {
+	dispathcTable map[string]HandlerT
 }
 
-func (dispatcher *HttpRequestDispatcher) RegisterHandler(path string, handler Handler_t, replace bool) error {
-	if dispatcher.dispathcTable_ == nil {
+// RegisterHandler register
+func (dispatcher *HTTPRequestDispatcher) RegisterHandler(path string, handler HandlerT, replace bool) error {
+	if dispatcher.dispathcTable == nil {
 		return errors.New("null reference")
 	}
-	if dispatcher.dispathcTable_[path] == nil {
-		dispatcher.dispathcTable_[path] = handler
+	if dispatcher.dispathcTable[path] == nil {
+		dispatcher.dispathcTable[path] = handler
 		return nil
 	}
 	if replace {
-		dispatcher.dispathcTable_[path] = handler
+		dispatcher.dispathcTable[path] = handler
 		return nil
 	}
 	return errors.New("already existed")
 }
 
-func NewDispatcher() *HttpRequestDispatcher {
-	ret := new(HttpRequestDispatcher)
-	ret.dispathcTable_ = map[string]Handler_t{}
+// Dispatch dispatch
+func (dispatcher *HTTPRequestDispatcher) Dispatch(path string) error{
+	return nil
+}
+
+// NewDispatcher newDispatcher
+func NewDispatcher() *HTTPRequestDispatcher {
+	ret := new(HTTPRequestDispatcher)
+	ret.dispathcTable = map[string]HandlerT{}
 	return ret
 }
 
-func (dispatcher *HttpRequestDispatcher) Len() int {
-	return len(dispatcher.dispathcTable_)
-}
-
-func a(l *list.List) {
-	l.PushBack(1)
-	for item := l.Front(); item != nil; item = item.Next() {
-		fmt.Println(item)
-	}
+// Len number of reigstrered handlers
+func (dispatcher *HTTPRequestDispatcher) Len() int {
+	return len(dispatcher.dispathcTable)
 }

@@ -2,8 +2,6 @@
 
 ProjectName=GoP
 
-echo 'building ' $ProjectName
-go build -o $ProjectName . && mv ./$ProjectName $GOPATH/bin
 
 for d in $(go list ./... | grep -v -w 'tests' | grep -v -E ".+$ProjectName$"); do
     target=$(basename $d)
@@ -12,3 +10,5 @@ for d in $(go list ./... | grep -v -w 'tests' | grep -v -E ".+$ProjectName$"); d
 done
 
 
+echo 'building ' $ProjectName
+go build -o $ProjectName . && mv ./$ProjectName $GOPATH/bin
