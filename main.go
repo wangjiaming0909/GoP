@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/wangjiaming0909/GoP/database"
 	"github.com/wangjiaming0909/GoP/userservice"
 )
 
@@ -19,5 +20,6 @@ func main() {
 
 func Pong(c *gin.Context) {
 	name := c.Param("name")
+	database.SqlDaoService()
 	c.String(http.StatusOK, "Hello %s", name)
 }
