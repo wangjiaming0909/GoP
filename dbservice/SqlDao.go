@@ -1,5 +1,6 @@
-package dbService
+package dbservice
 
+/*
 import (
 	"database/sql"
 	"log"
@@ -25,3 +26,4 @@ func checkError(errMsg error) {
 		log.Fatal(errMsg)
 	}
 }
+*/

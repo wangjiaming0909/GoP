@@ -1,4 +1,4 @@
-package dbService
+package dbservice
 
 import (
 	"database/sql"
@@ -9,12 +9,14 @@ import (
 	"github.com/wangjiaming0909/GoP/service"
 )
 
+//DBService DBService
 type DBService struct {
 	service.Service
 	db     *sql.DB
 	config *DBServiceConfig
 }
 
+//DBServiceConfig config of DB service
 type DBServiceConfig struct {
 	serviceName string
 	dbDriver    string
@@ -26,11 +28,13 @@ type DBServiceConfig struct {
 	//...
 }
 
+//GetDSN get sql dsn
 func (c *DBServiceConfig) GetDSN() string {
 	// return c.userName + ":" + c.password + "@tcp(" + c.address + ":" + string(c.port) + ")/user" + "?charset=utf8"
 	return c.userName + ":" + c.password + "@/" + "user"
 }
 
+//NewDBServiceConfig new a DB service config
 func NewDBServiceConfig(driver string, uN string, pword string, dbN string, addr string, p uint) DBServiceConfig {
 	return DBServiceConfig{
 		serviceName: "DBService",
@@ -43,6 +47,7 @@ func NewDBServiceConfig(driver string, uN string, pword string, dbN string, addr
 	}
 }
 
+//NewDBService new a service of DB
 func NewDBService(config *DBServiceConfig) DBService {
 	return DBService{
 		config: config,
@@ -50,13 +55,13 @@ func NewDBService(config *DBServiceConfig) DBService {
 	}
 }
 
+//Start start the DB service
 func (t *DBService) Start() error {
 	db, err := sql.Open(t.config.dbDriver, t.config.GetDSN())
 	if err != nil {
 		log.Fatal(err.Error())
 		return err
 	}
-	err = db.Close()
 	if err != nil {
 		log.Fatal(err.Error())
 		return err
@@ -67,6 +72,7 @@ func (t *DBService) Start() error {
 	return nil
 }
 
+//Stop stop the DB service
 func (t *DBService) Stop() error {
 	if t.db == nil {
 		return errors.New("not connected")
